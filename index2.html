@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profiles</title>
+  <style>
+    /* Basic CSS styling for the application */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .search-input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    .profile {
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+    }
+    .profile-name {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // User data
+    const users = [
+      { id: 1, name: "John Doe", age: 30 },
+      { id: 2, name: "Jane Smith", age: 25 },
+      { id: 3, name: "Alice Johnson", age: 35 },
+      { id: 4, name: "Bob Brown", age: 40 },
+      { id: 5, name: "Charlie Davis", age: 28 },
+      { id: 6, name: "David Wilson", age: 33 }
+    ];
+
+    // UserProfile component
+    const UserProfile = ({ user }) => (
+      <div className="profile">
+        <p className="profile-name">{user.name}</p>
+        <p>Age: {user.age}</p>
+      </div>
+    );
+
+    // App component
+    const App = () => {
+      const [searchQuery, setSearchQuery] = React.useState('');
+      
+      // Function to handle search input change
+      const handleSearchInputChange = (event) => {
+        setSearchQuery(event.target.value);
+      };
+
+      // Filter users based on search query
+      const filteredUsers = users.filter(user =>
+        user.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      return (
+        <div className="container">
+          {/* Search input field */}
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search by name"
+            value={searchQuery}
+            onChange={handleSearchInputChange}
+          />
+          {/* Display user profiles */}
+          {filteredUsers.map(user => (
+            <UserProfile key={user.id} user={user} />
+          ))}
+        </div>
+      );
+    };
+
+    // Render the App component to the root div
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
